@@ -90,3 +90,49 @@ export const effect = {
     'effecttsgo/unstable-api-usage': 'off',
   },
 } satisfies OxlintConfig
+
+/** Settings shared by React projects, layered after `base`. They assume React Compiler handles memoization. */
+export const react = {
+  plugins: ['react'],
+  rules: {
+    // Conflicts with `func-style`.
+    'function-component-definition': 'off',
+    'jsx-max-depth': 'off',
+    'jsx-no-constructed-context-values': 'off',
+    'jsx-props-no-spreading': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            importNames: ['useMemo', 'useCallback'],
+            message: 'Rely on React Compiler instead of manual memoization with useMemo or useCallback.',
+            name: 'react',
+          },
+        ],
+      },
+    ],
+    'react-in-jsx-scope': 'off',
+    'style-prop-object': 'off',
+
+    'react/capitalized-calls': 'error',
+    'react/error-boundaries': 'error',
+    'react/globals': 'error',
+    'react/hooks': 'error',
+    'react/immutability': 'error',
+    'react/incompatible-library': 'error',
+    'react/invariant': 'error',
+    'react/preserve-manual-memoization': 'error',
+    'react/purity': 'error',
+    'react/refs': 'error',
+    'react/rule-suppression': 'error',
+    'react/set-state-in-effect': 'error',
+    'react/set-state-in-render': 'error',
+    'react/static-components': 'error',
+    'react/syntax': 'error',
+    'react/todo': 'error',
+    'react/unsupported-syntax': 'error',
+    'react/use-memo': 'error',
+    'react/void-use-memo': 'error',
+  },
+} satisfies OxlintConfig

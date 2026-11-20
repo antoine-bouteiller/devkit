@@ -16,10 +16,12 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./plugin": "./dist/plugin/index.js"
+    "./base.json": "./dist/base.json",
+    "./plugin": "./dist/plugin/index.js",
+    "./react.json": "./dist/react.json"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && node scripts/write-json-configs.ts",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "pnpm build && oxlint --deny-warnings --report-unused-disable-directives",
