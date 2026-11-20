@@ -1,0 +1,2 @@
+# minimumReleaseAge, strictDepBuilds, and blockExoticSubdeps are already on by default.
+trustPolicy: no-downgrade

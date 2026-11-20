@@ -1,0 +1,47 @@
+{
+  "name": "@antoine-bouteiller/lint-config",
+  "version": "0.1.0",
+  "description": "Shared Oxlint config and custom rules.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoine-bouteiller/lint-config.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./plugin": "./dist/plugin/index.js"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lint": "pnpm build && oxlint --deny-warnings --report-unused-disable-directives",
+    "prepublishOnly": "pnpm build",
+    "test": "node --test 'src/**/*.test.ts'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.89.0",
+    "@types/node": "26.6.6",
+    "oxfmt": "0.79.0",
+    "oxlint": "1.89.0",
+    "oxlint-tsgolint": "7.0.2004",
+    "typescript": "6.0.3"
+  },
+  "peerDependencies": {
+    "oxlint": ">=1.89.0"
+  },
+  "peerDependenciesMeta": {
+    "oxlint": {
+      "optional": true
+    }
+  },
+  "packageManager": "pnpm@12.18.0"
+}
