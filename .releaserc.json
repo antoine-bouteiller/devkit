@@ -1,0 +1,29 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    ["@semantic-release/commit-analyzer", { "preset": "conventionalcommits" }],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "types": [
+            { "type": "feat", "section": "🎉 New Features" },
+            { "type": "fix", "section": "🐛 Bug Fixes" },
+            { "type": "perf", "section": "⚡ Performance" },
+            { "type": "docs", "section": "📚 Documentation" },
+            { "type": "chore", "section": "🔧 Maintenance", "hidden": true }
+          ]
+        }
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "pnpm pkg set version=${nextRelease.version}",
+        "publishCmd": "pnpm publish --access public --no-git-checks"
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}

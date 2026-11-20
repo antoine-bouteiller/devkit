@@ -2,19 +2,32 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+  workflow_dispatch:
 
-permissions:
-  contents: read
-  id-token: write
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
-  publish:
-    name: Publish
+  checks:
+    name: Quality Checks
+    uses: ./.github/workflows/quality-checks.yaml
+
+  release:
+    name: Release
+    needs: [checks]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
       - uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
 
@@ -22,10 +35,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Check tag matches package version
-        run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
-
-      - run: pnpm test
-
-      # Trusted publishing: pnpm exchanges the workflow's OIDC token and attaches provenance, so no NPM_TOKEN secret is needed.
-      - run: pnpm publish --access public
+      # `pnpm publish` exchanges the job's OIDC token through npm trusted publishing, so no NPM_TOKEN secret is needed.
+      - run: pnpm exec semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

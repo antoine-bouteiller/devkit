@@ -65,5 +65,6 @@ Oxlint refuses a config that names a rule it does not know. `base` and `effect` 
 
 The package ships compiled JS in `dist/`, because Node refuses to strip types from files under `node_modules`.
 
-1. Bump `version` in `package.json` and commit.
-2. Push a `v<version>` tag. The `Release` workflow tests and runs `pnpm publish` through npm trusted publishing.
+Every push to `main` runs the `Release` workflow. After the quality checks pass, semantic-release reads the Conventional Commits since the last `v*` tag. `feat` publishes a minor, `fix` and `perf` a patch, and a breaking change a major. Other types, including Renovate's `chore(deps)`, publish nothing.
+
+semantic-release tags the commit, creates the GitHub release, and runs `pnpm publish` through npm trusted publishing. The `version` in `package.json` is a placeholder; the git tags hold the real version.
