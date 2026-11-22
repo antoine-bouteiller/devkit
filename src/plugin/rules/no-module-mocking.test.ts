@@ -17,6 +17,8 @@ tester.run('lint-config/no-module-mocking', noModuleMockingRule, {
       code: "import { jest } from '@jest/globals'; jest.mock('./user-store');",
       errors: [error],
     },
+    { code: "import { vi } from 'vite-plus/test'; vi.mock('./user-store');", errors: [error] },
+    { code: "import { sb } from 'storybook/test'; sb.mock(import('./user-store'), { spy: true });", errors: [error] },
   ],
   valid: [
     'const store = new InMemoryUserStore();',
@@ -24,5 +26,7 @@ tester.run('lint-config/no-module-mocking', noModuleMockingRule, {
     'const vi = { mock() {} }; vi.mock();',
     'function test(jest: { mock(): void }) { jest.mock(); }',
     "import { vi as localVi } from './helpers'; localVi.mock('./module');",
+    "sb.mock('./module');",
+    "import { vi } from 'storybook/test'; vi.mock('./module');",
   ],
 })

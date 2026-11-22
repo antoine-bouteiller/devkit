@@ -2,6 +2,13 @@ import type { ESTree, Rule, Scope, SourceCode, Variable } from '@oxlint/plugins'
 
 const moduleMockMethods = new Set(['doMock', 'mock', 'unstable_mockModule'])
 
+const testFrameworkExports = new Map([
+  ['@jest/globals', 'jest'],
+  ['storybook/test', 'sb'],
+  ['vite-plus/test', 'vi'],
+  ['vitest', 'vi'],
+])
+
 const resolveVariable = (sourceCode: SourceCode, identifier: ESTree.IdentifierReference): Variable | undefined => {
   let scope: Scope | undefined = sourceCode.getScope(identifier) ?? undefined
   while (scope !== undefined) {
@@ -39,7 +46,7 @@ const isTestFrameworkObject = (sourceCode: SourceCode, expression: ESTree.Expres
     }
     const source = definition.parent.source.value
     const name = importedName(definition.node)
-    return (source === 'vitest' && name === 'vi') || (source === '@jest/globals' && name === 'jest')
+    return name !== undefined && testFrameworkExports.get(source) === name
   })
 }
 
@@ -78,7 +85,7 @@ export const noModuleMockingRule: Rule = {
   },
   meta: {
     docs: {
-      description: 'Disallow Vitest and Jest module mocking; tests must replace dependencies through real interfaces.',
+      description: 'Disallow Vitest, Jest, and Storybook module mocking; tests must replace dependencies through real interfaces.',
     },
     messages: {
       moduleMock: 'Replace module mocking with dependency injection through a real interface, service layer, or faithful test implementation.',
