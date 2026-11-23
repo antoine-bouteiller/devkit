@@ -60,6 +60,7 @@ export const base = {
     'lint-config/no-low-signal-symbol-names': 'error',
     'lint-config/no-module-mocking': 'error',
     'lint-config/no-object-parameters': 'error',
+    'lint-config/no-spec-ids-in-test-names': 'error',
     'lint-config/no-unknown-type-aliases': 'error',
     'lint-config/no-unsafe-dictionary-type': 'error',
   },

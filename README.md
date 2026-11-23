@@ -80,6 +80,7 @@ typeCheck = true
 - `lint-config/no-low-signal-symbol-names`
 - `lint-config/no-module-mocking`
 - `lint-config/no-object-parameters`
+- `lint-config/no-spec-ids-in-test-names`
 - `lint-config/no-unknown-type-aliases`
 - `lint-config/no-unsafe-dictionary-type`
 
