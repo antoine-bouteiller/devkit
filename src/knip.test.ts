@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, test } from 'node:test'
@@ -24,8 +24,7 @@ afterEach(() => {
 
 const resolveConfig = async (config: KnipConfig, production = false) => {
   const wrapped = defineKnipConfig(config)
-  assert.ok(typeof wrapped === 'function')
-  return await wrapped({ production })
+  return await (typeof wrapped === 'function' ? wrapped({ production }) : wrapped)
 }
 
 await test('Vite+ projects get hook files without an ignored oxlint binary', async () => {
@@ -38,6 +37,18 @@ await test('Vite+ projects get hook files without an ignored oxlint binary', asy
   assert.deepEqual(await resolveConfig({}), expected)
   writeFileSync('package.json', JSON.stringify({ devDependencies: { 'vite-plus': 'latest' } }))
   assert.deepEqual(await resolveConfig({}), expected)
+})
+
+await test('Vite+ defaults use the project in the requested directory', async () => {
+  mkdirSync('app')
+  writeFileSync('app/package.json', JSON.stringify({ dependencies: { 'vite-plus': 'latest' } }))
+  const wrapped = defineKnipConfig({})
+  const config = await (typeof wrapped === 'function' ? wrapped({ directory: 'app' }) : wrapped)
+  assert.deepEqual(config, {
+    husky: { config: ['.vite-hooks/pre-commit', '.vite-hooks/commit-msg'] },
+    includeEntryExports: true,
+    tags: ['-lintignore'],
+  })
 })
 
 await test('projects without Vite+ ignore the oxlint binary', async () => {

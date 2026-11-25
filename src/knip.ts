@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 
 import type { KnipConfig, KnipConfiguration } from 'knip'
 
@@ -8,7 +8,7 @@ export const defineKnipConfig =
   (config: KnipConfig): KnipConfig =>
   async (options) => {
     const project = await (typeof config === 'function' ? config(options) : config)
-    const manifest = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8'))
+    const manifest = JSON.parse(await readFile(join(resolve(options.directory ?? '.'), 'package.json'), 'utf8'))
     const defaults: KnipConfiguration = { includeEntryExports: true, tags: ['-lintignore'] }
 
     if (manifest.dependencies?.['vite-plus'] !== undefined || manifest.devDependencies?.['vite-plus'] !== undefined) {
