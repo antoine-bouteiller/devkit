@@ -5,7 +5,7 @@ import { noObjectParametersRule } from './no-object-parameters.ts'
 const tester = new RuleTester({ languageOptions: { parserOptions: { lang: 'ts' } } })
 const error = { messageId: 'objectParameter' }
 
-tester.run('lint-config/no-object-parameters', noObjectParametersRule, {
+tester.run('devkit/no-object-parameters', noObjectParametersRule, {
   invalid: [
     { code: 'function f(value: object) {}', errors: [error] },
     { code: 'type Alias = object; function f(value: Alias) {}', errors: [error] },

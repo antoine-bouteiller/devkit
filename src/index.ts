@@ -18,7 +18,7 @@ export const base = {
     commonjs: true,
     node: true,
   },
-  jsPlugins: [{ name: 'lint-config', specifier: '@antoine-bouteiller/lint-config/plugin' }],
+  jsPlugins: [{ name: 'devkit', specifier: '@antoine-bouteiller/devkit/plugin' }],
   plugins: ['typescript', 'unicorn', 'import'],
   rules: {
     // Restriction
@@ -55,14 +55,14 @@ export const base = {
     'prefer-default-export': 'off',
     'sort-imports': 'off',
 
-    'lint-config/no-conditional-empty-object-spread': 'error',
-    'lint-config/no-known-value-widening': 'error',
-    'lint-config/no-low-signal-symbol-names': 'error',
-    'lint-config/no-module-mocking': 'error',
-    'lint-config/no-object-parameters': 'error',
-    'lint-config/no-spec-ids-in-test-names': 'error',
-    'lint-config/no-unknown-type-aliases': 'error',
-    'lint-config/no-unsafe-dictionary-type': 'error',
+    'devkit/no-conditional-empty-object-spread': 'error',
+    'devkit/no-known-value-widening': 'error',
+    'devkit/no-low-signal-symbol-names': 'error',
+    'devkit/no-module-mocking': 'error',
+    'devkit/no-object-parameters': 'error',
+    'devkit/no-spec-ids-in-test-names': 'error',
+    'devkit/no-unknown-type-aliases': 'error',
+    'devkit/no-unsafe-dictionary-type': 'error',
   },
 } satisfies OxlintConfig
 

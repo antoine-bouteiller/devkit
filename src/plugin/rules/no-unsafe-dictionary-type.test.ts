@@ -6,7 +6,7 @@ const tester = new RuleTester({ languageOptions: { parserOptions: { lang: 'ts' }
 
 const error = { messageId: 'unsafeDictionary' }
 
-tester.run('lint-config/no-unsafe-dictionary-type', noUnsafeDictionaryTypeRule, {
+tester.run('devkit/no-unsafe-dictionary-type', noUnsafeDictionaryTypeRule, {
   invalid: [
     { code: 'type A = Record<string, unknown>;', errors: [error] },
     { code: 'type A = { [key: string]: any };', errors: [error] },

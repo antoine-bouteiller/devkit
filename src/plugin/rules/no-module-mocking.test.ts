@@ -5,7 +5,7 @@ import { noModuleMockingRule } from './no-module-mocking.ts'
 const tester = new RuleTester({ languageOptions: { parserOptions: { lang: 'ts' } } })
 const error = { messageId: 'moduleMock' }
 
-tester.run('lint-config/no-module-mocking', noModuleMockingRule, {
+tester.run('devkit/no-module-mocking', noModuleMockingRule, {
   invalid: [
     { code: "vi.mock('./user-store');", errors: [error] },
     { code: "jest.mock('./user-store');", errors: [error] },

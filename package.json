@@ -1,11 +1,11 @@
 {
-  "name": "@antoine-bouteiller/lint-config",
+  "name": "@antoine-bouteiller/devkit",
   "version": "0.0.0-semantic-release",
   "description": "Shared Oxlint config and custom rules.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antoine-bouteiller/lint-config.git"
+    "url": "git+https://github.com/antoine-bouteiller/devkit.git"
   },
   "files": [
     "dist"

@@ -11,7 +11,7 @@ import { noUnsafeDictionaryTypeRule } from './rules/no-unsafe-dictionary-type.ts
 
 /** Generic Oxlint rules that reject low-evidence and low-signal implementation patterns. */
 const plugin: Plugin = {
-  meta: { name: 'lint-config' },
+  meta: { name: 'devkit' },
   rules: {
     'no-conditional-empty-object-spread': noConditionalEmptyObjectSpreadRule,
     'no-known-value-widening': noKnownValueWideningRule,

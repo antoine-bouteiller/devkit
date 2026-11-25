@@ -6,7 +6,7 @@ const tester = new RuleTester({ languageOptions: { parserOptions: { lang: 'tsx' 
 const suffixError = { messageId: 'numericSuffix' }
 const termError = { messageId: 'forbiddenSymbolName' }
 
-tester.run('lint-config/no-low-signal-symbol-names', noLowSignalSymbolNamesRule, {
+tester.run('devkit/no-low-signal-symbol-names', noLowSignalSymbolNamesRule, {
   invalid: [
     { code: 'const container2 = 0; console.log(container2);', errors: [suffixError] },
     { code: 'let item0, item123;', errors: [suffixError, suffixError] },

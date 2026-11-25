@@ -5,7 +5,7 @@ import { noUnknownTypeAliasesRule } from './no-unknown-type-aliases.ts'
 const tester = new RuleTester({ languageOptions: { parserOptions: { lang: 'ts' } } })
 const error = { messageId: 'unknownAlias' }
 
-tester.run('lint-config/no-unknown-type-aliases', noUnknownTypeAliasesRule, {
+tester.run('devkit/no-unknown-type-aliases', noUnknownTypeAliasesRule, {
   invalid: [
     { code: 'type Alias = unknown;', errors: [error] },
     { code: 'type UnknownValue = unknown; type Alias = UnknownValue;', errors: [error, error] },

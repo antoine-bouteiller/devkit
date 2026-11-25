@@ -1,17 +1,17 @@
-# @antoine-bouteiller/lint-config
+# @antoine-bouteiller/devkit
 
 Shared Oxlint config and custom rules for my projects. Works with raw `oxlint`, with Vite+ (`vp lint`), and with `bun lint`.
 
 ## Usage
 
 ```sh
-pnpm add -D @antoine-bouteiller/lint-config
+pnpm add -D @antoine-bouteiller/devkit
 ```
 
 `oxlint.config.ts`:
 
 ```ts
-import { base } from '@antoine-bouteiller/lint-config'
+import { base } from '@antoine-bouteiller/devkit'
 import { defineConfig } from 'oxlint'
 
 export default defineConfig({
@@ -26,7 +26,7 @@ export default defineConfig({
 Vite+ (`vite.config.ts`):
 
 ```ts
-import { base } from '@antoine-bouteiller/lint-config'
+import { base } from '@antoine-bouteiller/devkit'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
@@ -37,7 +37,7 @@ export default defineConfig({
 Effect projects also extend `effect`, after `@effect/tsgo`'s preset:
 
 ```ts
-import { base, effect } from '@antoine-bouteiller/lint-config'
+import { base, effect } from '@antoine-bouteiller/devkit'
 import { recommended } from '@effect/tsgo/oxlint-presets'
 
 export default defineConfig({ extends: [recommended, base, effect] })
@@ -46,7 +46,7 @@ export default defineConfig({ extends: [recommended, base, effect] })
 React projects also extend `react`, after `base`. It turns on the React Compiler rules and forbids importing `useMemo` and `useCallback`:
 
 ```ts
-import { base, react } from '@antoine-bouteiller/lint-config'
+import { base, react } from '@antoine-bouteiller/devkit'
 
 export default defineConfig({ extends: [base, react] })
 ```
@@ -61,7 +61,7 @@ Oxlint reads `options` only from the root config, so each project sets it. `file
 
 ```toml
 [lint]
-config = "node_modules/@antoine-bouteiller/lint-config/dist/base.json" # or dist/react.json
+config = "node_modules/@antoine-bouteiller/devkit/dist/base.json" # or dist/react.json
 typeAware = true
 typeCheck = true
 
@@ -73,16 +73,16 @@ typeCheck = true
 
 ## Custom rules
 
-`base` enables every rule of the bundled `lint-config` plugin:
+`base` enables every rule of the bundled `devkit` plugin:
 
-- `lint-config/no-conditional-empty-object-spread`
-- `lint-config/no-known-value-widening`
-- `lint-config/no-low-signal-symbol-names`
-- `lint-config/no-module-mocking`
-- `lint-config/no-object-parameters`
-- `lint-config/no-spec-ids-in-test-names`
-- `lint-config/no-unknown-type-aliases`
-- `lint-config/no-unsafe-dictionary-type`
+- `devkit/no-conditional-empty-object-spread`
+- `devkit/no-known-value-widening`
+- `devkit/no-low-signal-symbol-names`
+- `devkit/no-module-mocking`
+- `devkit/no-object-parameters`
+- `devkit/no-spec-ids-in-test-names`
+- `devkit/no-unknown-type-aliases`
+- `devkit/no-unsafe-dictionary-type`
 
 ## Oxlint version
 

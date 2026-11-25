@@ -6,7 +6,7 @@ const tester = new RuleTester({ languageOptions: { parserOptions: { lang: 'ts' }
 const error = { messageId: 'specId' }
 const storyFile = 'issues-view.stories.tsx'
 
-tester.run('lint-config/no-spec-ids-in-test-names', noSpecIdsInTestNamesRule, {
+tester.run('devkit/no-spec-ids-in-test-names', noSpecIdsInTestNamesRule, {
   invalid: [
     { code: "it('[VC-2] draws the issue in date order', () => {});", errors: [error] },
     { code: "test('profile VC-6: badges show the picture', () => {});", errors: [error] },

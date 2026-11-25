@@ -8,7 +8,7 @@ const error = { messageId: 'widening' }
 
 const prelude = 'type Command = () => void; const startCommand = () => {};'
 
-tester.run('lint-config/no-known-value-widening', noKnownValueWideningRule, {
+tester.run('devkit/no-known-value-widening', noKnownValueWideningRule, {
   invalid: [
     { code: 'const value: unknown = {};', errors: [error] },
     { code: 'const value: object = {};', errors: [error] },

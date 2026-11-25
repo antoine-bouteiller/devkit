@@ -9,7 +9,7 @@ if (noConditionalEmptyObjectSpreadRule.meta?.fixable !== undefined) {
   throw new Error('The rule must not offer an unsafe semantics-changing fix.')
 }
 
-tester.run('lint-config/no-conditional-empty-object-spread', noConditionalEmptyObjectSpreadRule, {
+tester.run('devkit/no-conditional-empty-object-spread', noConditionalEmptyObjectSpreadRule, {
   invalid: [
     {
       code: 'const result = { ...(value !== undefined ? { value } : {}) };',
