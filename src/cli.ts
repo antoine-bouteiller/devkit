@@ -15,7 +15,7 @@ const readMessages = (args: string[]) => {
   const { positionals, values } = parseArgs({ allowPositionals: true, args, options: { from: { type: 'string' }, to: { type: 'string' } } })
   if (values.from !== undefined && values.to !== undefined) {
     const log = execFileSync('git', ['log', '-z', '--format=%B', `${values.from}..${values.to}`], { encoding: 'utf8' })
-    return log.split('\0').filter((message) => message !== '')
+    return log.split('\0').slice(0, -1)
   }
   const [file] = positionals
   if (file === undefined) {

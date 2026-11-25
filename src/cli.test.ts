@@ -58,6 +58,14 @@ await test('commit-msg checks every subject in a git range', async (context) => 
     assert.match(result.stderr, /^wip$/m)
     assert.doesNotMatch(result.stderr, /chore: a/)
   })
+
+  await context.test('rejects a range containing an empty commit message', () => {
+    const from = git('rev-parse', 'HEAD')
+    git('commit', '-q', '--allow-empty', '--allow-empty-message', '-m', '')
+    const result = runCli(['commit-msg', '--from', from, '--to', 'HEAD'], repo)
+    assert.equal(result.status, 1)
+    assert.ok(result.stderr.includes(errorText))
+  })
 })
 
 await test('knip runs the pinned version even when PATH contains another knip', () => {
