@@ -107,7 +107,24 @@ devkit commit-msg --from <sha> --to <sha> exit 1 when any subject in `git log <f
 devkit knip [...args]                     run the bundled knip
 ```
 
-Call `devkit commit-msg "$1"` from a `commit-msg` hook. `devkit knip` replaces a direct `knip` dev dependency; import the config type as `import type { KnipConfig } from '@antoine-bouteiller/devkit'`. knip updates ship as devkit releases.
+Call `devkit commit-msg "$1"` from a `commit-msg` hook. `devkit knip` replaces a direct `knip` dev dependency; wrap the project config with `defineKnipConfig` from `@antoine-bouteiller/devkit`. knip updates ship as devkit releases.
+
+### knip
+
+`knip.ts`:
+
+```ts
+import { defineKnipConfig } from '@antoine-bouteiller/devkit'
+
+export default defineKnipConfig({
+  entry: ['src/main.ts'],
+  project: ['src/**/*.ts'],
+})
+```
+
+The defaults are `tags: ['-lintignore']` and `includeEntryExports: true`. Projects with `vite-plus` in `dependencies` or `devDependencies` also get `husky: { config: ['.vite-hooks/pre-commit', '.vite-hooks/commit-msg'] }`; other projects get `ignoreBinaries: ['oxlint']`.
+
+Project arrays append to the defaults; other values replace them in a shallow merge. Function configs receive knip's options and can return a config asynchronously.
 
 ## Custom rules
 
