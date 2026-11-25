@@ -15,5 +15,5 @@
     "rewriteRelativeImportExtensions": true,
     "noEmit": true
   },
-  "include": ["src", "scripts", "oxlint.config.ts"]
+  "include": ["src", "scripts", "oxfmt.config.ts", "oxlint.config.ts"]
 }

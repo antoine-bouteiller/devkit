@@ -17,6 +17,7 @@
       "default": "./dist/index.js"
     },
     "./base.json": "./dist/base.json",
+    "./fmt.json": "./dist/fmt.json",
     "./plugin": "./dist/plugin/index.js",
     "./react.json": "./dist/react.json"
   },

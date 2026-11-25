@@ -11,28 +11,36 @@ pnpm add -D @antoine-bouteiller/devkit
 `oxlint.config.ts`:
 
 ```ts
-import { base } from '@antoine-bouteiller/devkit'
+import { base, options } from '@antoine-bouteiller/devkit'
 import { defineConfig } from 'oxlint'
 
 export default defineConfig({
   extends: [base],
-  options: { typeAware: true, typeCheck: true },
+  options,
   rules: {
     'filename-case': ['error', { cases: { snakeCase: true } }],
   },
 })
 ```
 
-Vite+ (`vite.config.ts`):
+Vite+ (`vite.config.ts`) also extends `vitePlus`, after `base` and before `react`. It adds the browser environments, the `vite-plus` plugin, and the rules both Vite+ projects loosen:
 
 ```ts
-import { base } from '@antoine-bouteiller/devkit'
+import { base, fmt, options, parentImportRestriction, staged, vitePlus } from '@antoine-bouteiller/devkit'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  lint: { extends: [base], options: { typeAware: true, typeCheck: true } },
+  fmt,
+  lint: {
+    extends: [base, vitePlus],
+    options,
+    rules: { 'no-restricted-imports': ['error', { patterns: [parentImportRestriction] }] },
+  },
+  staged,
 })
 ```
+
+`parentImportRestriction` forbids imports that climb more than one parent directory. It is a `no-restricted-imports` pattern rather than a rule, because a project's rule options replace a preset's.
 
 Effect projects also extend `effect`, after `@effect/tsgo`'s preset:
 
@@ -53,7 +61,7 @@ export default defineConfig({ extends: [base, react] })
 
 A project that sets `no-restricted-imports` replaces the `useMemo` and `useCallback` restriction, so it must repeat it.
 
-Oxlint reads `options` only from the root config, so each project sets it. `filename-case` also stays per project.
+Oxlint reads `options` only from the root config, so each project sets it to the shared `options`. `filename-case` stays per project.
 
 ## Bun
 
@@ -70,6 +78,24 @@ typeCheck = true
 ```
 
 `config` takes a file path, not a package specifier. Bun reads a `.js` config as an ESLint config, so the presets ship as JSON. `effect` has no JSON copy, because it builds on `@effect/tsgo`'s preset.
+
+## Formatting
+
+`fmt` holds the format options. Vite+ projects set it as `fmt`, and standalone oxfmt spreads it in `oxfmt.config.ts`:
+
+```ts
+import { fmt } from '@antoine-bouteiller/devkit'
+import { defineConfig } from 'oxfmt'
+
+export default defineConfig({ ...fmt, ignorePatterns: ['dist/**'] })
+```
+
+`bun fmt` reads the JSON copy:
+
+```toml
+[fmt]
+config = "node_modules/@antoine-bouteiller/devkit/dist/fmt.json"
+```
 
 ## Custom rules
 

@@ -1,3 +1,4 @@
+import type { OxfmtConfig } from 'oxfmt'
 import type { OxlintConfig } from 'oxlint'
 
 /*
@@ -5,7 +6,7 @@ import type { OxlintConfig } from 'oxlint'
  * Oxlint refuses to load a config that names an unknown rule.
  */
 
-/** Settings shared by every project. `options` and `filename-case` stay in each project: Oxlint reads `options` only from the root config. */
+/** Settings shared by every project. `filename-case` stays in each project. */
 export const base = {
   categories: {
     correctness: 'error',
@@ -23,6 +24,7 @@ export const base = {
   rules: {
     // Restriction
     complexity: ['error', 15],
+    'default-case': 'error',
     'no-array-for-each': 'error',
     'no-console': 'error',
     'no-empty': 'error',
@@ -46,7 +48,11 @@ export const base = {
     'exports-last': 'off',
     'group-exports': 'off',
     'max-nested-calls': 'off',
+    // Contradicts `devkit/no-object-parameters`.
+    'max-params': 'off',
     'max-statements': 'off',
+    // Separate `import type` lines keep type-only dependencies visible.
+    'no-duplicate-imports': ['error', { allowSeparateTypeImports: true }],
     'no-magic-numbers': 'off',
     'no-named-export': 'off',
     'no-nodejs-modules': 'off',
@@ -137,3 +143,32 @@ export const react = {
     'react/void-use-memo': 'error',
   },
 } satisfies OxlintConfig
+
+/** Settings shared by Vite+ projects, layered after `base` and before `react`. */
+export const vitePlus = {
+  env: { browser: true, 'shared-node-browser': true },
+  jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
+  rules: {
+    'id-length': ['error', { exceptions: ['$', 'x', 'y', 'z'] }],
+    'no-namespace': 'off',
+    'no-null': 'off',
+    'no-underscore-dangle': 'off',
+    'no-unneeded-ternary': 'off',
+    'vite-plus/prefer-vite-plus-imports': 'error',
+  },
+} satisfies OxlintConfig
+
+/** Each root config sets these itself: Oxlint reads `options` only from the root config, so `extends` cannot carry them. */
+export const options = { reportUnusedDisableDirectives: 'error', typeAware: true, typeCheck: true } satisfies OxlintConfig['options']
+
+/** A `no-restricted-imports` pattern. Not part of `base`, because a project's rule options replace a preset's. */
+export const parentImportRestriction = {
+  message: 'Imports must not traverse more than one parent directory. Use an alias instead.',
+  regex: String.raw`^\.\./\.\.(/|$)`,
+}
+
+/** Format options shared by Vite+ (`fmt`), standalone oxfmt, and `bun fmt` through `dist/fmt.json`. */
+export const fmt = { printWidth: 150, semi: false, singleQuote: true, sortImports: {}, trailingComma: 'es5' } satisfies OxfmtConfig
+
+/** Vite+ `staged` config. */
+export const staged = { '*': 'vp check --fix' }
