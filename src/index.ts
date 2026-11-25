@@ -1,6 +1,8 @@
 import type { OxfmtConfig } from 'oxfmt'
 import type { OxlintConfig } from 'oxlint'
 
+export type { KnipConfig } from 'knip'
+
 /*
  * Every rule named here must exist in the oldest `oxlint` allowed by `peerDependencies`:
  * Oxlint refuses to load a config that names an unknown rule.

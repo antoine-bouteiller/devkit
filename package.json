@@ -1,11 +1,14 @@
 {
   "name": "@antoine-bouteiller/devkit",
   "version": "0.0.0-semantic-release",
-  "description": "Shared Oxlint config and custom rules.",
+  "description": "Shared lint and format config, custom Oxlint rules, and the devkit command.",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antoine-bouteiller/devkit.git"
+  },
+  "bin": {
+    "devkit": "./dist/cli.js"
   },
   "files": [
     "dist"
@@ -31,9 +34,10 @@
     "test": "node --test 'src/**/*.test.ts'",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "knip": "6.48.0"
+  },
   "devDependencies": {
-    "@commitlint/cli": "21.2.4",
-    "@commitlint/config-conventional": "21.2.4",
     "@oxlint/plugins": "1.89.0",
     "@semantic-release/exec": "7.1.0",
     "@types/node": "26.6.6",
@@ -52,11 +56,6 @@
     "oxlint": {
       "optional": true
     }
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   },
   "packageManager": "pnpm@12.23.0"
 }

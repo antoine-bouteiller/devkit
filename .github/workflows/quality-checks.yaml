@@ -28,8 +28,8 @@ jobs:
 
       - run: pnpm test
 
-  commitlint:
-    name: Commitlint
+  commit-messages:
+    name: Commit messages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -38,12 +38,8 @@ jobs:
 
       - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
 
-      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
-
-      - run: pnpm install --frozen-lockfile
-
       # Under `workflow_call` from Release, the event is the push to `main`.
-      - run: pnpm exec commitlint --from "$FROM" --to "$TO" --verbose
+      - run: node src/cli.ts commit-msg --from "$FROM" --to "$TO"
         env:
           FROM: ${{ github.event.pull_request.base.sha || github.event.before }}
           TO: ${{ github.event.pull_request.head.sha || github.sha }}

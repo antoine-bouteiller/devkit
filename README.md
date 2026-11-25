@@ -1,6 +1,6 @@
 # @antoine-bouteiller/devkit
 
-Shared Oxlint config and custom rules for my projects. Works with raw `oxlint`, with Vite+ (`vp lint`), and with `bun lint`.
+Shared lint and format config, custom Oxlint rules, and the `devkit` command for my projects. The config works with raw `oxlint`, with Vite+ (`vp lint`), and with `bun lint`.
 
 ## Usage
 
@@ -96,6 +96,16 @@ export default defineConfig({ ...fmt, ignorePatterns: ['dist/**'] })
 [fmt]
 config = "node_modules/@antoine-bouteiller/devkit/dist/fmt.json"
 ```
+
+## `devkit` command
+
+```text
+devkit commit-msg <file>                  exit 1 when the first line of <file> is not a Conventional Commit subject
+devkit commit-msg --from <sha> --to <sha> exit 1 when any subject in `git log <from>..<to>` is not, naming each one
+devkit knip [...args]                     run the bundled knip
+```
+
+Call `devkit commit-msg "$1"` from a `commit-msg` hook. `devkit knip` replaces a direct `knip` dev dependency; import the config type as `import type { KnipConfig } from '@antoine-bouteiller/devkit'`. knip updates ship as devkit releases.
 
 ## Custom rules
 
