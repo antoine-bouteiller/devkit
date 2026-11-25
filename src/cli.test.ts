@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { delimiter, dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 
@@ -60,9 +60,15 @@ await test('commit-msg checks every subject in a git range', async (context) => 
   })
 })
 
-await test('knip runs the version pinned in dependencies from outside the package', () => {
+await test('knip runs the pinned version even when PATH contains another knip', () => {
   const { dependencies } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
-  const result = runCli(['knip', '--version'])
+  const bin = mkdtempSync(join(scratch, 'bin-'))
+  writeFileSync(join(bin, 'knip'), '#!/bin/sh\nprintf "0.0.0-fake\\n"\n', { mode: 0o755 })
+  const result = spawnSync(process.execPath, [cli, 'knip', '--version'], {
+    cwd: scratch,
+    encoding: 'utf8',
+    env: { ...process.env, PATH: [bin, dirname(process.execPath)].join(delimiter) },
+  })
   assert.equal(result.status, 0)
   assert.equal(result.stdout.trim(), dependencies.knip)
 })
