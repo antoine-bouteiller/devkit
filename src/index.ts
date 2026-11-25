@@ -150,6 +150,8 @@ export const react = {
 export const vitePlus = {
   env: { browser: true, 'shared-node-browser': true },
   jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
+  // Without `plugins`, an extended config brings Oxlint's default plugins, which add `oxc`.
+  plugins: [],
   rules: {
     'id-length': ['error', { exceptions: ['$', 'x', 'y', 'z'] }],
     'no-namespace': 'off',
