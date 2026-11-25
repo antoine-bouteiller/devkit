@@ -8,6 +8,8 @@ Shared lint and format config, custom Oxlint rules, and the `devkit` command for
 pnpm add -D @antoine-bouteiller/devkit
 ```
 
+The package brings `oxlint`, `oxlint-tsgolint`, and `knip`, so a project lists none of them. Vite+ projects still lint with the `oxlint` Vite+ bundles. Do not hoist `oxlint` with pnpm's `publicHoistPattern`: it replaces the copy Vite+ expects and breaks `vp check`.
+
 `oxlint.config.ts`:
 
 ```ts
@@ -122,7 +124,9 @@ Call `devkit commit-msg "$1"` from a `commit-msg` hook. `devkit knip` replaces a
 
 ## Oxlint version
 
-Oxlint refuses a config that names a rule it does not know. The presets may therefore only use rules available in the oldest `oxlint` allowed by `peerDependencies`. The dev toolchain pins that version, and Renovate does not bump it. To use a newer rule, raise the peer minimum and the dev pins together.
+Oxlint refuses a config that names a rule it does not know. The presets may therefore only use rules available both in the pinned `oxlint` and in the `oxlint` each consumer's Vite+ bundles.
+
+Renovate does not bump `oxlint` and `oxlint-tsgolint`. `@effect/tsgo` patches them for its type-aware rules and ships patched builds only for specific versions. Bump both pins by hand to a pair the consumers' `@effect/tsgo` supports.
 
 `bun lint` runs the rules of the oxlint version it bundles, 1.87 as of Bun 1.4.6, and exits with code 2 on a rule it does not know. A new rule must also exist in that version. `bun lint --no-script --doctor` lists the rules Bun does not run.
 

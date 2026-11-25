@@ -3,9 +3,8 @@
   extends: ['github>antoine-bouteiller/renovate'],
   packageRules: [
     {
-      description: 'Oxlint dev pins (pinned to the oldest oxlint in peerDependencies)',
+      description: 'Oxlint pins, bumped by hand to a version @effect/tsgo ships a patched build for',
       enabled: false,
-      matchDepTypes: ['devDependencies'],
       matchPackageNames: ['oxlint', '@oxlint/plugins', 'oxlint-tsgolint'],
     },
   ],

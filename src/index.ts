@@ -4,7 +4,7 @@ import type { OxlintConfig } from 'oxlint'
 export type { KnipConfig } from 'knip'
 
 /*
- * Every rule named here must exist in the oldest `oxlint` allowed by `peerDependencies`:
+ * Every rule named here must exist in the pinned `oxlint` and in the one each consumer's Vite+ bundles:
  * Oxlint refuses to load a config that names an unknown rule.
  */
 
