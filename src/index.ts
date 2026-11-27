@@ -61,6 +61,8 @@ export const base = {
     'no-named-export': 'off',
     'no-nodejs-modules': 'off',
     'no-ternary': 'off',
+    // Oxfmt lowercases hex digits.
+    'number-literal-case': 'off',
     'one-var': 'off',
     'prefer-default-export': 'off',
     'sort-imports': 'off',
